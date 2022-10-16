@@ -13,6 +13,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <!-- mis estilos -->
     <link rel="stylesheet" href="{%static 'css/myestilo.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <title>Blog Recetas del Sur</title>
 </head>
 <header>
@@ -32,16 +35,15 @@
             {% endif %}
         </div>
       </div>
-      <div class="contenido1">
-          <h1>Blog de Recetas</h1>
-        {% block contenido %}
-        <a href="/AppGlobal/create_autores">Crear Autor</a>
-        {% endblock %}
-        </div>
 </header>
 
 <body>
-    <H1>PONER ALGO  ACA.</H1>
+    <div class="contenido1">
+        {% block contenido %}
+        <h1>Blog de Recetas</h1>
+        <a href="/AppGlobal/create_autores">Crear Autor</a>
+        {% endblock %}
+        </div>
 </body>
 <footer>
 <p class="pFooter"> ®  Design by Matias Chavez </p>    

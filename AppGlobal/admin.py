@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Blog)
 admin.site.register(Autores)
 admin.site.register(Avatar)
+admin.site.register(Message)
