@@ -2,6 +2,7 @@ from django.urls import path
 from AppGlobal.views import *
 from django.contrib.auth.views import LogoutView
 
+
 urlpatterns = [
     path('', index),
     path('recetas/',recetas),
@@ -20,5 +21,7 @@ urlpatterns = [
    	path('new/<username>', NewConversation, name='newconversation'),
    	path('send/', SendDirect, name='send_direct'),
     path("blogs/",blogs),
-    path("add_blogs/",add_blogs)
+    path("add_blogs/",add_blogs),
+    path("edit_blog_post/<str:slug>/", UpdatePostView.as_view(), name="edit_blog_post"),
+    path('<slug:slug>/', PostDetail.as_view(), name='post_detail'),
 ]

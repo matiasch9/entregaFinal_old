@@ -10,6 +10,7 @@ from django.template import loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.views.generic import UpdateView , DetailView
 
 # Create your views here.
 
@@ -259,6 +260,8 @@ def blogs(request):
     posts = Blog.objects.filter().order_by('-publish_date')
     return render(request, "blogs.html", {'posts':posts})
 
+
+@login_required
 def add_blogs(request):
     if request.method=="POST":
         form = BlogPostForm(data=request.POST, files=request.FILES)
@@ -273,20 +276,13 @@ def add_blogs(request):
         form=BlogPostForm()
     return render(request, "add_blogs.html", {'form':form})
 
-@login_required
-def add_blogs(request):
-    if request.method=="POST":
-        form = BlogPostForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            blogpost = form.save(commit=False)
-            blogpost.author = request.user
-            blogpost.save()
-            obj = form.instance
-            alert = True
-            return render(request, "add_blogs.html",{'obj':obj, 'alert':alert})
-    else:
-        form=BlogPostForm()
-    return render(request, "add_blogs.html", {'form':form})
+class UpdatePostView(UpdateView):
+    model = Blog
+    template_name = 'edit_blog_post.html'
+    fields = ['titulo', 'descripcion', 'body', 'image']
+    success_url = "/AppGlobal/blogs"
 
-
-	
+class PostDetail(DetailView):
+    model = Blog
+    context_object_name = 'post'
+    template_name = 'blog_detail.html'

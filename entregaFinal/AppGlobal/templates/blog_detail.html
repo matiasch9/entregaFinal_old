@@ -1,0 +1,25 @@
+{% extends 'index.html' %} 
+
+<h1>{% block title %} {{ object.title }} {% endblock title %}</h1>
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <img src="/media/{{post.image}}" class="card-img-top" alt="..." height="200px">
+        <p class=" text-muted">{{ post.author }} | {{ post.publish_date }}</p>
+        <p class=" text-muted">{{ post.Descripcion }}</p>
+        <p class=" text-muted">{{ post.body |linebreaks }}</p>
+        <a>{% if user.is_superuser %}<a href="../edit_blog_post/{{post.slug}}/" class="btn btn-danger mx-4">Editar Blog</a><a>{% endif %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

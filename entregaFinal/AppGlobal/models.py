@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Max
+from autoslug import AutoSlugField
+
 
 # Create your models here.
 class Blog(models.Model):
-   titulo = models.CharField(max_length=30)
-   descripcion = models.CharField(max_length=80)
+   titulo = models.CharField(max_length=60, unique=True)
+   slug = AutoSlugField(populate_from='titulo',editable=True, always_update=True)
+   descripcion = models.CharField(max_length=120, unique=True)
    body = models.TextField()
    publish_date = models.DateTimeField(auto_now_add=True)
    image = models.ImageField(upload_to='imagenes', null = True, blank = True)

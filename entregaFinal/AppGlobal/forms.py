@@ -42,9 +42,9 @@ class AvatarFormulario(forms.Form):
 class BlogPostForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ('titulo', 'descripcion', 'body', 'image')
+        fields = ('titulo','descripcion',  'body', 'image')
         widgets = {
-            'titulo': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title of the Blog'}),
-            'descripcion': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Copy the title with no space and a hyphen in between'}),
-            'body': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Content of the Blog'}),
+            'titulo': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Titulo del blog'}),
+            'descripcion': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Agregue una breve descripcion'}),
+            'body': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Contenido del blog'}),
         }

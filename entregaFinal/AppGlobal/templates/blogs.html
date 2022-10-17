@@ -13,12 +13,13 @@
     <div class="row">
         {% for post in posts %}
         <div class="col-lg-4 my-4">
-            <div class="card shadow" style="width: 20rem; height: 33rem;">
+            <div class="card shadow" style="width: 20rem; height: 34rem;">
                 <img src="/media/{{post.image}}" class="card-img-top" alt="..." height="250px">
                 <div class="card-body">
                   <h5 class="card-title">{{post.titulo}} <br><small>by {{post.author}}</small></h5>
-                  <p class="card-text">{{post.body| truncatechars:210}}</p>
-                  <a href="blog/{{post.descripcion}}" class="btn btn-primary">Read More {% if user.is_superuser %}<a href="delete_blog_post/{{post.descripcion}}/" class="btn btn-danger mx-4">Delete Blog</a>{% endif %}</a>
+                  <p class="card-text">{{post.descripcion| truncatechars:120}}</p>
+                  <p class="card-text">{{post.body| truncatechars:120}}</p>
+                  <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary">Read More {% if user.is_superuser %}<a href="delete_blog_post/{{post.titulo}}/" class="btn btn-danger mx-4">Delete Blog</a>{% endif %}</a>
                 </div>
               </div>
         </div>
