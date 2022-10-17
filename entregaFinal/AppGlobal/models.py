@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from AppGlobal.choices import tipos
 from django.db.models import Max
 
 # Create your models here.
@@ -10,7 +9,6 @@ class Blog(models.Model):
    body = models.TextField()
    publish_date = models.DateTimeField(auto_now_add=True)
    image = models.ImageField(upload_to='imagenes', null = True, blank = True)
-   tipo = models.CharField(max_length=12, choices=tipos)
    author= models.ForeignKey(User, on_delete=models.CASCADE, default = '0')
    def __str__(self):
         return str(self.author) +  " Blog titulo: " + self.titulo

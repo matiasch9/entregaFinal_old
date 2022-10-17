@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from AppGlobal.forms import UserRegisterForm, UserEditForm, ChangePasswordForm, AvatarFormulario
+from AppGlobal.forms import UserRegisterForm, UserEditForm, ChangePasswordForm, AvatarFormulario, BlogPostForm
 from django.contrib.auth.decorators import login_required
 from django.template import loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
@@ -266,6 +266,21 @@ def add_blogs(request):
             Blog = form.save(commit=False)
             Blog.author = request.user
             Blog.save()
+            obj = form.instance
+            alert = True
+            return render(request, "add_blogs.html",{'obj':obj, 'alert':alert})
+    else:
+        form=BlogPostForm()
+    return render(request, "add_blogs.html", {'form':form})
+
+@login_required
+def add_blogs(request):
+    if request.method=="POST":
+        form = BlogPostForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            blogpost = form.save(commit=False)
+            blogpost.author = request.user
+            blogpost.save()
             obj = form.instance
             alert = True
             return render(request, "add_blogs.html",{'obj':obj, 'alert':alert})
