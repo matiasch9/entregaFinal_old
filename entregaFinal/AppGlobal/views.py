@@ -10,7 +10,9 @@ from django.template import loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.db.models import Q
 from django.core.paginator import Paginator
-from django.views.generic import UpdateView , DetailView
+from django.views.generic import UpdateView , DetailView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -272,6 +274,7 @@ def add_blogs(request):
             obj = form.instance
             alert = True
             return render(request, "add_blogs.html",{'obj':obj, 'alert':alert})
+            success_url = "/AppGlobal/blogs"
     else:
         form=BlogPostForm()
     return render(request, "add_blogs.html", {'form':form})
@@ -286,3 +289,16 @@ class PostDetail(DetailView):
     model = Blog
     context_object_name = 'post'
     template_name = 'blog_detail.html'
+
+@login_required
+def mis_blogs(request=None):
+    blogs = Blog.objects.all() #Trae todo
+    return render(request, "mis_blogs.html", {"blogs": blogs})
+
+
+class DeleteBlogView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Blog
+    template_name = "delete_blog.html"
+    login_url = '/AppGlobal/login'
+    success_url = "/AppGlobal/blogs"
+    success_message = "El Blog a sido eliminado"

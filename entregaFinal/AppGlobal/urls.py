@@ -24,4 +24,7 @@ urlpatterns = [
     path("add_blogs/",add_blogs),
     path("edit_blog_post/<str:slug>/", UpdatePostView.as_view(), name="edit_blog_post"),
     path('<slug:slug>/', PostDetail.as_view(), name='post_detail'),
+    path('perfil/mis_blogs/', mis_blogs),
+    path('delete_blog/<str:slug>/', DeleteBlogView.as_view(), name="delete_blog")
+
 ]

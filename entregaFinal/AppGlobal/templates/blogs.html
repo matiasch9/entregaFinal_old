@@ -19,7 +19,7 @@
                   <h5 class="card-title">{{post.titulo}} <br><small>by {{post.author}}</small></h5>
                   <p class="card-text">{{post.descripcion| truncatechars:120}}</p>
                   <p class="card-text">{{post.body| truncatechars:120}}</p>
-                  <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary">Read More {% if user.is_superuser %}<a href="delete_blog_post/{{post.titulo}}/" class="btn btn-danger mx-4">Delete Blog</a>{% endif %}</a>
+                  <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary">Read More {% if user.is_authenticated and user == post.author %}<a href="/AppGlobal/delete_blog/{{post.slug}}" class="btn btn-danger mx-4">Delete Blog</a>{% endif %}</a>
                 </div>
               </div>
         </div>
