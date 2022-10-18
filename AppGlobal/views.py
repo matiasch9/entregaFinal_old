@@ -4,12 +4,15 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from AppGlobal.forms import UserRegisterForm, UserEditForm, ChangePasswordForm, AvatarFormulario
+from AppGlobal.forms import UserRegisterForm, UserEditForm, ChangePasswordForm, AvatarFormulario, BlogPostForm
 from django.contrib.auth.decorators import login_required
 from django.template import loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.views.generic import UpdateView , DetailView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -253,6 +256,49 @@ def checkDirects(request):
 
 	return {'directs_count':directs_count}
 
+## BLog
+def blogs(request):
+    posts = Blog.objects.all()
+    posts = Blog.objects.filter().order_by('-publish_date')
+    return render(request, "blogs.html", {'posts':posts})
 
 
-	
+@login_required
+def add_blogs(request):
+    if request.method=="POST":
+        form = BlogPostForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            Blog = form.save(commit=False)
+            Blog.author = request.user
+            Blog.save()
+            obj = form.instance
+            alert = True
+            return render(request, "add_blogs.html",{'obj':obj, 'alert':alert})
+            success_url = "/AppGlobal/blogs"
+    else:
+        form=BlogPostForm()
+    return render(request, "add_blogs.html", {'form':form})
+
+class UpdatePostView(UpdateView):
+    model = Blog
+    template_name = 'edit_blog_post.html'
+    fields = ['titulo', 'descripcion', 'body', 'image']
+    success_url = "/AppGlobal/blogs"
+
+class PostDetail(DetailView):
+    model = Blog
+    context_object_name = 'post'
+    template_name = 'blog_detail.html'
+
+@login_required
+def mis_blogs(request=None):
+    blogs = Blog.objects.all() #Trae todo
+    return render(request, "mis_blogs.html", {"blogs": blogs})
+
+
+class DeleteBlogView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Blog
+    template_name = "delete_blog.html"
+    login_url = '/AppGlobal/login'
+    success_url = "/AppGlobal/blogs"
+    success_message = "El Blog a sido eliminado"

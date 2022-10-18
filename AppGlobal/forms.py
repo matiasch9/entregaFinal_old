@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from AppGlobal.models import Blog
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -37,3 +38,13 @@ class ChangePasswordForm(PasswordChangeForm):
 class AvatarFormulario(forms.Form):
     avatar = forms.ImageField()
 
+## Blog
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ('titulo','descripcion',  'body', 'image')
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Titulo del blog'}),
+            'descripcion': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Agregue una breve descripcion'}),
+            'body': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Contenido del blog'}),
+        }

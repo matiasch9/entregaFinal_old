@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block title %}Delete blog{% endblock title %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    {% if user.id == blog.author.id %}
+        <h2>Delete: {{blog.titulo}}</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <strong>Esta usted seguro de eliminar el Blog ??</strong>
+            <p>{{blog.titulo}}</p>
+            <br>
+            <button type="submit" class="btn btn-danger">Eliminar Blog</button>
+        </form>
+        {% else %}
+        <strong class="text-danger">No tiene permisos para eliminar este Blog</strong>
+        <br>
+    {% endif %}
+    {% else %}
+    <strong class="text-danger">You are not logged in please create or login in website</strong>
+{% endif %}
+<br>
+{% endblock body %}
+
+
+
